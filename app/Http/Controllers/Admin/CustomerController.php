@@ -38,4 +38,10 @@ class CustomerController extends Controller
         return redirect()->route('admin.customers.show', $user)
             ->with('success', 'Customer updated successfully');
     }
+    public function destroy(User $user): IlluminateHttpRedirectResponse
+{
+    $user->delete();
+    return redirect()->route('admin.customers')
+        ->with('success', 'Customer archived.');
+}
 }
