@@ -12,7 +12,6 @@ use App\Http\Controllers\Tasks\TaskController;
 use App\Http\Controllers\Activities\ActivityController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\ChatbotController;
 
 // ── Public Routes ─────────────────────────────────────────────────────────────
@@ -21,24 +20,6 @@ Route::get('/about',     [PageController::class, 'about'])->name('about');
 Route::get('/services',  [PageController::class, 'services'])->name('services');
 Route::get('/features',  [PageController::class, 'features'])->name('features');
 Route::get('/contact',   [PageController::class, 'contact'])->name('contact');
-
-// ── Temporary Database Connection Test ────────────────────────────────────────
-Route::get('/db-test', function () {
-    try {
-        DB::connection()->getPdo();
-
-        return response()->json([
-            'success' => true,
-            'message' => 'Aiven MySQL connection successful!',
-            'database' => DB::connection()->getDatabaseName(),
-        ]);
-    } catch (\Throwable $e) {
-        return response()->json([
-            'success' => false,
-            'message' => $e->getMessage(),
-        ], 500);
-    }
-});
 
 // Public chatbot route — no login required
 Route::post('/chatbot/guest', [ChatbotController::class, 'guestReply'])
