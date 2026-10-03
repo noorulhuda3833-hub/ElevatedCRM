@@ -7,6 +7,7 @@ use App\Policies\SupportTicketPolicy;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Blade;
+use Illuminate\Support\Facades\URL;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -28,6 +29,11 @@ class AppServiceProvider extends ServiceProvider
         // Register blade components
         foreach (config('components.components', []) as $alias => $component) {
             Blade::component($alias, $component);
+        }
+
+        // Force HTTPS URLs in production
+        if (app()->environment('production')) {
+            URL::forceScheme('https');
         }
     }
 }
